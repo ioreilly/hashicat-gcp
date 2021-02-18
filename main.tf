@@ -1,9 +1,13 @@
 provider "google" {
-  version = "~> 2.0"  
-  project = var.project
-  region  = var.region
+  version     = "~> 2.0"
+  project     = var.project
+  region      = var.region
+  credentials = var.gcp_credentials
 }
 
+variable "gcp_credentials" {
+  description = "The name of the GCP Project where all resources will be launched."
+}
 resource "google_compute_network" "hashicat" {
   name                    = "${var.prefix}-vpc-${var.region}"
   auto_create_subnetworks = false
@@ -57,7 +61,7 @@ resource "google_compute_instance" "hashicat" {
   }
 
   tags = ["http-server"]
-  
+
   labels = {
     name = "hashicat"
   }
